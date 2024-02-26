@@ -101,6 +101,7 @@ export const ProductQuantity = styled.div`
 
   border-radius: 6px;
   background: ${({ theme }) => theme.base_button};
+  cursor: pointer;
   padding: 0.5rem;
 
   > svg {
@@ -125,6 +126,7 @@ export const WrapperCartButton = styled.div`
 
   background: ${({ theme }) => theme.purple};
   border-radius: 6px;
+  cursor: pointer;
   height: 2.375rem;
   width: 2.375rem;
 

@@ -4,13 +4,13 @@ import {
   ProductHeader,
   ProductFooter,
   ProductPrice,
-  ProductQuantity,
   WrapperProductPrice,
   ProductCurrency,
   WrapperCartButton,
 } from './styles'
 
-import { Minus, Plus, ShoppingCartSimple } from '@phosphor-icons/react'
+import { ShoppingCartSimple } from '@phosphor-icons/react'
+import { QuantityInput } from '../QuantityInput'
 
 interface productProps {
   picture: string
@@ -27,6 +27,15 @@ export function Product({
   description,
   price,
 }: productProps) {
+  const formattedPrice = (price: number) => {
+    let formattedString = price.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    })
+
+    return (formattedString = formattedString.replace('R$', ''))
+  }
+
   return (
     <ProductContainer>
       <ProductHeader>
@@ -43,14 +52,10 @@ export function Product({
       <ProductFooter>
         <WrapperProductPrice>
           <ProductCurrency>R$</ProductCurrency>
-          <ProductPrice>{price}</ProductPrice>
+          <ProductPrice>{formattedPrice(price)}</ProductPrice>
         </WrapperProductPrice>
 
-        <ProductQuantity>
-          <Minus size={14} />
-          <input type="number" min={1} max={99} step={1} defaultValue="1" />
-          <Plus size={14} />
-        </ProductQuantity>
+        <QuantityInput />
 
         <WrapperCartButton>
           <ShoppingCartSimple size={22} />
