@@ -3,7 +3,7 @@ import { ProductQuantity } from './styles'
 import { useEffect, useState } from 'react'
 
 interface QuantityInputProps {
-  onQuantityChange: (quantity: string) => void
+  onQuantityChange?: (quantity: string) => void
 }
 
 export function QuantityInput({ onQuantityChange }: QuantityInputProps) {
@@ -27,7 +27,9 @@ export function QuantityInput({ onQuantityChange }: QuantityInputProps) {
   }
 
   useEffect(() => {
-    onQuantityChange(inputManualValue)
+    if (onQuantityChange) {
+      onQuantityChange(inputManualValue)
+    }
   }, [inputManualValue, onQuantityChange])
 
   return (

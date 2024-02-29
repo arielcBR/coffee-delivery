@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const HeaderContainer = styled.header`
@@ -43,7 +44,7 @@ export const Location = styled.div`
     line-height: 130%;
   }
 `
-export const CartContainer = styled.div`
+export const CartContainer = styled(Link)`
   background: ${({ theme }) => theme.yellow_light};
   border-radius: 6px;
   cursor: pointer;
