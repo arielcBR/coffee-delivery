@@ -129,8 +129,13 @@ export const WrapperCartButton = styled.div`
   cursor: pointer;
   height: 2.375rem;
   width: 2.375rem;
+  transition: ease-out 0.5s;
 
   > svg {
     fill: ${({ theme }) => theme.white};
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.purple_dark};
   }
 `
