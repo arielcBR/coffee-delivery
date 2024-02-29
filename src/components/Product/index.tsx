@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import {
   ProductContainer,
@@ -13,7 +13,7 @@ import {
 import { ShoppingCartSimple } from '@phosphor-icons/react'
 import { QuantityInput } from '../QuantityInput'
 
-import { CartContext } from '../../contexts/CartProvider'
+import { CartContext, ProductInterface } from '../../contexts/CartProvider'
 
 interface productProps {
   picture: string
@@ -31,6 +31,7 @@ export function Product({
   price,
 }: productProps) {
   const { cart, setCart } = useContext(CartContext)
+  const [quantity, setQuantity] = useState('1')
 
   const formattedPrice = (price: number) => {
     let formattedString = price.toLocaleString('pt-BR', {
@@ -42,7 +43,17 @@ export function Product({
   }
 
   function handleAddProductInCart() {
-    setCart((state) => [])
+    const newCartItem: ProductInterface = {
+      name: title,
+      price,
+      quantity,
+    }
+
+    setCart((state) => [...state, newCartItem])
+  }
+
+  function handleQuantityChange(newQuantity: string) {
+    setQuantity(newQuantity)
   }
 
   return (
@@ -64,7 +75,7 @@ export function Product({
           <ProductPrice>{formattedPrice(price)}</ProductPrice>
         </WrapperProductPrice>
 
-        <QuantityInput />
+        <QuantityInput onQuantityChange={handleQuantityChange} />
 
         <WrapperCartButton onClick={handleAddProductInCart}>
           <ShoppingCartSimple size={22} />

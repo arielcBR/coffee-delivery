@@ -1,9 +1,14 @@
+import { useContext } from 'react'
 import { HeaderContainer, Location, CartContainer } from './styles'
 import { MapPin, ShoppingCart } from '@phosphor-icons/react'
 
 import logo from '../../assets/images/Logo.svg'
 
+import { CartContext } from '../../contexts/CartProvider'
+
 export function Header() {
+  const { cart } = useContext(CartContext)
+
   return (
     <HeaderContainer>
       <nav>
@@ -20,7 +25,7 @@ export function Header() {
 
           <CartContainer>
             <ShoppingCart size={22} />
-            <span>5</span>
+            {!cart.length ? null : <span>{cart.length}</span>}
           </CartContainer>
         </div>
       </nav>

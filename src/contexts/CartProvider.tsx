@@ -6,16 +6,17 @@ import {
   SetStateAction,
 } from 'react'
 
-interface Product {
-  id: number
+export interface ProductInterface {
   name: string
   price: number
-  quantity: number
+  quantity: string
 }
 
 interface CartContextValue {
-  cart: Product[]
-  setCart: Dispatch<SetStateAction<Product[]>> // Tipo para setCart
+  cart: ProductInterface[]
+  setCart: Dispatch<SetStateAction<ProductInterface[]>>
+  quantityItem: number
+  setQuantityItem: Dispatch<SetStateAction<number>>
 }
 
 interface CartContextProps {
@@ -24,15 +25,20 @@ interface CartContextProps {
 
 export const CartContext = createContext<CartContextValue>({
   cart: [],
-  setCart: () => {}, // Definindo um valor padrão para evitar erros de tipo
+  setCart: () => {},
+  quantityItem: 0,
+  setQuantityItem: () => {},
 })
 
 export function CartProvider({ children }: CartContextProps) {
-  const [cart, setCart] = useState<Product[]>([])
+  const [cart, setCart] = useState<ProductInterface[]>([])
+  const [quantityItem, setQuantityItem] = useState<number>(0)
 
   const contextValue: CartContextValue = {
     cart,
     setCart,
+    quantityItem,
+    setQuantityItem,
   }
 
   return (

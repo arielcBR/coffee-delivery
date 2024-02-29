@@ -1,8 +1,12 @@
 import { Minus, Plus } from '@phosphor-icons/react'
 import { ProductQuantity } from './styles'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export function QuantityInput() {
+interface QuantityInputProps {
+  onQuantityChange: (quantity: string) => void
+}
+
+export function QuantityInput({ onQuantityChange }: QuantityInputProps) {
   const [inputManualValue, setInputManualValue] = useState('1')
 
   function handleDecrement() {
@@ -18,8 +22,13 @@ export function QuantityInput() {
   }
 
   function handleOnChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setInputManualValue(event.target.value)
+    const newQuantity = event.target.value
+    setInputManualValue(newQuantity)
   }
+
+  useEffect(() => {
+    onQuantityChange(inputManualValue)
+  }, [inputManualValue, onQuantityChange])
 
   return (
     <ProductQuantity>
