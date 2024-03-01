@@ -5,6 +5,11 @@ export const HeaderContainer = styled.header`
   background: ${({ theme }) => theme.background};
   margin: 0 auto;
   padding: 2rem 0;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 100%;
 
   > nav {
     display: flex;

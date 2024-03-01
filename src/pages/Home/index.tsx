@@ -1,20 +1,10 @@
 import { Coffee, Package, ShoppingCart, Timer } from '@phosphor-icons/react'
-import {
-  HomeContainer,
-  ReasonsContainer,
-  Title,
-  ProductsContainer,
-} from './styles'
+import { HomeContainer, ReasonsContainer, Title, CoffeeList } from './styles'
 
 import hero from '../../assets/images/hero.png'
 import { Reason } from '../../components/Reason'
-import { Product } from '../../components/Product'
-
-import traditionalExpressCoffee from '../../assets/images/expresso.png'
-import americanExpressCoffee from '../../assets/images/american_expresso.png'
-import creamyExpressCoffee from '../../assets/images/creamy_expresso.png'
-import coldExpressCoffee from '../../assets/images/cold_expresso.png'
-import latteCoffee from '../../assets/images/latte.png'
+import { CoffeeCard } from '../../components/CoffeeCard'
+import { coffees } from '../../data/coffee'
 
 export function Home() {
   return (
@@ -63,47 +53,11 @@ export function Home() {
       </section>
 
       <h2>Nossos cafés</h2>
-      <ProductsContainer>
-        <Product
-          picture={traditionalExpressCoffee}
-          title="Expresso"
-          tags={['tradicional']}
-          description="O tradicional café feito com água quente e grãos moídos"
-          price={9.9}
-        />
-
-        <Product
-          picture={americanExpressCoffee}
-          title="Expresso tradicional"
-          tags={['tradicional']}
-          description="Expresso diluído, menos intenso que o tradicional"
-          price={9.9}
-        />
-
-        <Product
-          picture={creamyExpressCoffee}
-          title="Expresso Cremoso"
-          tags={['tradicional']}
-          description="Café expresso tradicional com espuma cremosa"
-          price={9.98}
-        />
-
-        <Product
-          picture={coldExpressCoffee}
-          title="Expresso gelado"
-          tags={['tradicional', 'gelado']}
-          description="Bebida preparada com café expresso e cubos de gelo"
-          price={9.9}
-        />
-
-        <Product
-          picture={latteCoffee}
-          title="Latte"
-          tags={['tradicional', 'com leite']}
-          description="Uma dose de café expresso com o dobro de leite e espuma cremosa"
-          price={9.89}
-        />
-      </ProductsContainer>
+      <CoffeeList>
+        {coffees.map((coffee) => (
+          <CoffeeCard key={coffee.id} coffee={coffee} />
+        ))}
+      </CoffeeList>
     </HomeContainer>
   )
 }

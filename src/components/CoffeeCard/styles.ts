@@ -10,7 +10,7 @@ export const ProductContainer = styled.div`
   flex-direction: column;
   gap: 1rem;
 
-  width: 16rem;
+  width: 13.5rem;
 `
 
 export const ProductHeader = styled.div`

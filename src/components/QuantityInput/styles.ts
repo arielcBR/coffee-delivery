@@ -8,21 +8,24 @@ export const ProductQuantity = styled.div`
 
   border-radius: 6px;
   background: ${({ theme }) => theme.base_button};
-  cursor: pointer;
   padding: 0.5rem;
   width: 4.5rem;
 
   > svg {
+    cursor: pointer;
     fill: ${({ theme }) => theme.purple};
+
+    &:disabled {
+      opacity: 0.4;
+    }
+
+    &:not(:disabled):hover {
+      ${({ theme }) => theme.purple_light};
+    }
   }
 
   input {
     text-align: center;
     width: 1.75rem;
-  }
-
-  > input[type='number']::-webkit-inner-spin-button,
-  input[type='number']::-webkit-outer-spin-button {
-    -webkit-appearance: none;
   }
 `

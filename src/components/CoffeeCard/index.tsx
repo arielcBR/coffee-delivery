@@ -1,5 +1,4 @@
 import { useContext, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 import {
   ProductContainer,
   ProductHeader,
@@ -14,38 +13,30 @@ import { ShoppingCartSimple } from '@phosphor-icons/react'
 import { QuantityInput } from '../QuantityInput'
 
 import { CartContext, ProductInterface } from '../../contexts/CartProvider'
+import { formatCurrency } from '../../utils/formatCurrency'
 
-interface productProps {
-  picture: string
-  title: string
-  tags: string[]
+export interface coffee {
+  id: number
+  name: string
   description: string
+  photo: string
   price: number
+  tags: string[]
 }
 
-export function Product({
-  picture,
-  title,
-  tags,
-  description,
-  price,
-}: productProps) {
+export interface coffeeProps {
+  coffee: coffee
+}
+
+export function CoffeeCard({ coffee }: coffeeProps) {
   const { cart, setCart } = useContext(CartContext)
   const [quantity, setQuantity] = useState('1')
-
-  const formattedPrice = (price: number) => {
-    let formattedString = price.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    })
-
-    return (formattedString = formattedString.replace('R$', ''))
-  }
+  const formattedPrice = formatCurrency(coffee.price)
 
   function handleAddProductInCart() {
     const newCartItem: ProductInterface = {
-      name: title,
-      price,
+      name: coffee.name,
+      price: coffee.price,
       quantity,
     }
 
@@ -59,26 +50,26 @@ export function Product({
   return (
     <ProductContainer>
       <ProductHeader>
-        <img src={picture} alt="" />
+        <img src={`/coffeeImages/${coffee.photo}`} alt="" />
         <div>
-          {tags.map((tag) => {
-            return <span key={uuidv4()}>{tag}</span>
+          {coffee.tags.map((tag) => {
+            return <span key={`${coffee.id}-${tag}`}>{tag}</span>
           })}
         </div>
-        <h3>{title}</h3>
-        <p>{description}</p>
+        <h3>{coffee.name}</h3>
+        <p>{coffee.description}</p>
       </ProductHeader>
 
       <ProductFooter>
         <WrapperProductPrice>
           <ProductCurrency>R$</ProductCurrency>
-          <ProductPrice>{formattedPrice(price)}</ProductPrice>
+          <ProductPrice>{formattedPrice}</ProductPrice>
         </WrapperProductPrice>
 
         <QuantityInput onQuantityChange={handleQuantityChange} />
 
         <WrapperCartButton onClick={handleAddProductInCart}>
-          <ShoppingCartSimple size={22} />
+          <ShoppingCartSimple size={22} weight="fill" />
         </WrapperCartButton>
       </ProductFooter>
     </ProductContainer>

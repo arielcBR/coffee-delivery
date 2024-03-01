@@ -102,6 +102,15 @@ export const CartContainer = styled(SharedContainer)`
     padding: 0.75rem 0.5rem;
     text-transform: uppercase;
     text-align: center;
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    &:not(:disabled):hover {
+      background: ${({ theme }) => theme.yellow_dark};
+    }
   }
 `
 
@@ -184,7 +193,7 @@ export const DeleteProductButton = styled.button`
 `
 
 export const Divider = styled.div`
-  background: ${({ theme }) => theme.base_button};
+  background: ${({ theme }) => theme.base_hover};
   margin: 1.5rem auto;
   height: 1px;
   width: 100%;

@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { HeaderContainer, Location, CartContainer } from './styles'
-import { MapPin, ShoppingCart } from '@phosphor-icons/react'
+import { MapPinLine, ShoppingCart } from '@phosphor-icons/react'
 
 import logo from '../../assets/images/Logo.svg'
 
@@ -22,7 +22,7 @@ export function Header() {
 
         <div>
           <Location>
-            <MapPin size={22} />
+            <MapPinLine size={22} weight="fill" />
             <span>Porto Alegre, RS</span>
           </Location>
 

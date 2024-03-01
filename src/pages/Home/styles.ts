@@ -48,10 +48,11 @@ export const ReasonsContainer = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-auto-rows: auto;
 `
-export const ProductsContainer = styled.div`
+export const CoffeeList = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 1rem;
+  z-index: 0;
 
   > div {
     margin-bottom: 2.5rem;

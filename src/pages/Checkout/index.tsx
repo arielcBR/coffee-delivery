@@ -27,9 +27,6 @@ import {
 import { PaymentMethod } from './components/PaymentMethod'
 import { QuantityInput } from '../../components/QuantityInput'
 
-import expressCoffee from '../../assets/images/expresso.png'
-import latte from '../../assets/images/latte.png'
-
 export function Checkout() {
   return (
     <CheckoutContainer>
@@ -38,7 +35,7 @@ export function Checkout() {
           <label htmlFor="">Complete seu pedido</label>
           <AddressContainer>
             <HeaderAddress>
-              <MapPinLine size={22} />
+              <MapPinLine size={22} weight="fill" />
               <div>
                 <h3>Endereço de Entrega</h3>
                 <p>Informe o endereço onde deseja receber seu pedido</p>
@@ -123,7 +120,7 @@ export function Checkout() {
           <CartContainer>
             <div>
               <ProductInCart>
-                <img src={expressCoffee} alt="" />
+                <img src="../../../public/coffeeImages/americano.png" alt="" />
                 <div>
                   <p>Expresso Tradicional</p>
                   <WrapperButtons>
@@ -138,7 +135,7 @@ export function Checkout() {
               </ProductInCart>
               <Divider />
               <ProductInCart>
-                <img src={latte} alt="" />
+                <img src="../../../public/coffeeImages/americano.png" alt="" />
                 <div>
                   <p>Latte</p>
                   <WrapperButtons>
