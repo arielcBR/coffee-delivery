@@ -10,6 +10,7 @@ interface CartContextType {
   cartItems: CartItem[]
   addCoffeeToCart: (coffee: CartItem) => void
   cartQuantity: number
+  deleteItemInCart: (cartItemId: number) => void
   changeItemQuantityInCart: (
     cartItemId: number,
     type: 'increase' | 'decrease',
@@ -68,6 +69,17 @@ export function CartProvider({ children }: CartContextProps) {
     setCartItems(newCart)
   }
 
+  function deleteItemInCart(cartItemId: number) {
+    const newCart = produce(cartItems, (draft) => {
+      const coffeeExistsInCart = cartItems.findIndex(
+        (item) => item.id === cartItemId,
+      )
+
+      if (coffeeExistsInCart >= 0) draft.splice(coffeeExistsInCart, 1)
+    })
+    setCartItems(newCart)
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -75,6 +87,7 @@ export function CartProvider({ children }: CartContextProps) {
         addCoffeeToCart,
         cartQuantity,
         changeItemQuantityInCart,
+        deleteItemInCart,
       }}
     >
       {children}
