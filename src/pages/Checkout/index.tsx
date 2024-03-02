@@ -23,11 +23,13 @@ import { PaymentMethod } from './components/PaymentMethod'
 import { SelectedCoffees } from './components/SelectedCoffees'
 import { EmptyCart } from './components/EmptyCart'
 import { useCart } from '../../hooks/useCart'
+import { formatCurrency } from '../../utils/formatCurrency'
+
+const DELIVERY_PRICE = 3.5
 
 export function Checkout() {
-  const { cartItems } = useCart()
-
-  // const TotalPriceCart = () => {}
+  const { cartItems, cartItemsPrice, cartQuantity } = useCart()
+  const cartTotalPrice = cartItemsPrice + DELIVERY_PRICE
 
   return (
     <CheckoutContainer>
@@ -124,18 +126,26 @@ export function Checkout() {
             <OrderDetail>
               <div>
                 <span>Total de itens</span>
-                <span>R$ 29,70</span>
+                <span>R$ {formatCurrency(cartItemsPrice)}</span>
               </div>
               <div>
                 <span>Entrega</span>
-                <span>R$ 3,50</span>
+                <span>
+                  R$
+                  {cartQuantity <= 0 ? 0 : formatCurrency(DELIVERY_PRICE)}
+                </span>
               </div>
               <TotalPriceOrder>
                 <span>Total</span>
-                <span>R$ 33,20</span>
+                <span>
+                  R$
+                  {cartQuantity <= 0 ? 0 : formatCurrency(cartTotalPrice)}
+                </span>
               </TotalPriceOrder>
             </OrderDetail>
-            <button type="submit">Confirmar pedido</button>
+            <button disabled={cartQuantity <= 0} type="submit">
+              Confirmar pedido
+            </button>
           </CartContainer>
         </div>
       </FormContainer>
