@@ -4,7 +4,6 @@ import {
   CurrencyDollar,
   MapPinLine,
   Money,
-  Trash,
 } from '@phosphor-icons/react'
 import {
   CheckoutContainer,
@@ -17,17 +16,19 @@ import {
   HeaderPayment,
   PaymentMethods,
   CartContainer,
-  ProductInCart,
-  Divider,
-  WrapperButtons,
-  DeleteProductButton,
   OrderDetail,
   TotalPriceOrder,
 } from './styles'
 import { PaymentMethod } from './components/PaymentMethod'
-import { QuantityInput } from '../../components/QuantityInput'
+import { SelectedCoffees } from './components/SelectedCoffees'
+import { EmptyCart } from './components/EmptyCart'
+import { useCart } from '../../hooks/useCart'
 
 export function Checkout() {
+  const { cartItems } = useCart()
+
+  // const TotalPriceCart = () => {}
+
   return (
     <CheckoutContainer>
       <FormContainer action="">
@@ -118,38 +119,8 @@ export function Checkout() {
         <div>
           <label htmlFor="">Cafés selecionados</label>
           <CartContainer>
-            <div>
-              <ProductInCart>
-                <img src="../../../public/coffeeImages/americano.png" alt="" />
-                <div>
-                  <p>Expresso Tradicional</p>
-                  <WrapperButtons>
-                    <QuantityInput />
-                    <DeleteProductButton>
-                      <Trash size={16} />
-                      <span>Remover</span>
-                    </DeleteProductButton>
-                  </WrapperButtons>
-                </div>
-                <span>R$9,90</span>
-              </ProductInCart>
-              <Divider />
-              <ProductInCart>
-                <img src="../../../public/coffeeImages/americano.png" alt="" />
-                <div>
-                  <p>Latte</p>
-                  <WrapperButtons>
-                    <QuantityInput />
-                    <DeleteProductButton>
-                      <Trash size={16} />
-                      <span>Remover</span>
-                    </DeleteProductButton>
-                  </WrapperButtons>
-                </div>
-                <span>R$9,90</span>
-              </ProductInCart>
-              <Divider />
-            </div>
+            {cartItems.length > 0 ? <SelectedCoffees /> : <EmptyCart />}
+
             <OrderDetail>
               <div>
                 <span>Total de itens</span>

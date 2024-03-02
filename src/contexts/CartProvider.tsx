@@ -1,47 +1,83 @@
-import {
-  createContext,
-  useState,
-  ReactNode,
-  Dispatch,
-  SetStateAction,
-} from 'react'
+import { ReactNode, createContext, useState } from 'react'
+import { Coffee } from '../components/CoffeeCard'
+import { produce } from 'immer'
 
-export interface ProductInterface {
-  name: string
-  price: number
-  quantity: string
+export interface CartItem extends Coffee {
+  quantity: number
 }
 
-interface CartContextValue {
-  cart: ProductInterface[]
-  setCart: Dispatch<SetStateAction<ProductInterface[]>>
-  quantityItem: number
-  setQuantityItem: Dispatch<SetStateAction<number>>
+interface CartContextType {
+  cartItems: CartItem[]
+  addCoffeeToCart: (coffee: CartItem) => void
+  cartQuantity: number
+  changeItemQuantityInCart: (
+    cartItemId: number,
+    type: 'increase' | 'decrease',
+  ) => void
 }
 
 interface CartContextProps {
   children: ReactNode
 }
 
-export const CartContext = createContext<CartContextValue>({
-  cart: [],
-  setCart: () => {},
-  quantityItem: 0,
-  setQuantityItem: () => {},
-})
+export const CartContext = createContext({} as CartContextType)
 
 export function CartProvider({ children }: CartContextProps) {
-  const [cart, setCart] = useState<ProductInterface[]>([])
-  const [quantityItem, setQuantityItem] = useState<number>(0)
+  const [cartItems, setCartItems] = useState<CartItem[]>([])
 
-  const contextValue: CartContextValue = {
-    cart,
-    setCart,
-    quantityItem,
-    setQuantityItem,
+  const cartQuantity = cartItems.length
+
+  function addCoffeeToCart(coffee: CartItem) {
+    const coffeeAlreadyExistsInCart = cartItems.findIndex(
+      (cartItem) => cartItem.id === coffee.id,
+    )
+
+    const newCart = produce(cartItems, (draft) => {
+      if (coffeeAlreadyExistsInCart < 0) {
+        draft.push(coffee)
+      } else {
+        draft[coffeeAlreadyExistsInCart].quantity += coffee.quantity
+      }
+    })
+
+    setCartItems(newCart)
+  }
+
+  function changeItemQuantityInCart(
+    cartItemId: number,
+    type: 'increase' | 'decrease',
+  ) {
+    const newCart = produce(cartItems, (draft) => {
+      const coffeeExistsInCart = cartItems.findIndex(
+        (cartItem) => cartItem.id === cartItemId,
+      )
+
+      if (coffeeExistsInCart >= 0) {
+        const item = draft[coffeeExistsInCart]
+
+        if (type === 'decrease') {
+          if (item.quantity > 1) {
+            draft[coffeeExistsInCart].quantity = item.quantity - 1
+          }
+        } else {
+          draft[coffeeExistsInCart].quantity = item.quantity + 1
+        }
+      }
+    })
+
+    setCartItems(newCart)
   }
 
   return (
-    <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>
+    <CartContext.Provider
+      value={{
+        cartItems,
+        addCoffeeToCart,
+        cartQuantity,
+        changeItemQuantityInCart,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
   )
 }

@@ -1,14 +1,13 @@
-import { useContext } from 'react'
 import { HeaderContainer, Location, CartContainer } from './styles'
 import { MapPinLine, ShoppingCart } from '@phosphor-icons/react'
 
 import logo from '../../assets/images/Logo.svg'
 
-import { CartContext } from '../../contexts/CartProvider'
 import { Link } from 'react-router-dom'
+import { useCart } from '../../hooks/useCart'
 
 export function Header() {
-  const { cart } = useContext(CartContext)
+  const { cartQuantity } = useCart()
 
   return (
     <HeaderContainer>
@@ -27,8 +26,8 @@ export function Header() {
           </Location>
 
           <CartContainer to="/checkout">
-            <ShoppingCart size={22} />
-            {!cart.length ? null : <span>{cart.length}</span>}
+            <ShoppingCart size={22} weight="fill" />
+            {cartQuantity < 1 ? null : <span>{cartQuantity}</span>}
           </CartContainer>
         </div>
       </nav>

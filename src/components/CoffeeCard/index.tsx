@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import {
   ProductContainer,
   ProductHeader,
@@ -12,10 +12,10 @@ import {
 import { ShoppingCartSimple } from '@phosphor-icons/react'
 import { QuantityInput } from '../QuantityInput'
 
-import { CartContext, ProductInterface } from '../../contexts/CartProvider'
 import { formatCurrency } from '../../utils/formatCurrency'
+import { useCart } from '../../hooks/useCart'
 
-export interface coffee {
+export interface Coffee {
   id: number
   name: string
   description: string
@@ -25,26 +25,33 @@ export interface coffee {
 }
 
 export interface coffeeProps {
-  coffee: coffee
+  coffee: Coffee
 }
 
 export function CoffeeCard({ coffee }: coffeeProps) {
-  const { cart, setCart } = useContext(CartContext)
-  const [quantity, setQuantity] = useState('1')
+  const { addCoffeeToCart } = useCart()
+  const [quantity, setQuantity] = useState(1)
+
   const formattedPrice = formatCurrency(coffee.price)
 
-  function handleAddProductInCart() {
-    const newCartItem: ProductInterface = {
-      name: coffee.name,
-      price: coffee.price,
+  function handleAddToCart() {
+    const coffeeToAdd = {
+      ...coffee,
       quantity,
     }
-
-    setCart((state) => [...state, newCartItem])
+    addCoffeeToCart(coffeeToAdd)
   }
 
-  function handleQuantityChange(newQuantity: string) {
-    setQuantity(newQuantity)
+  function handleIncrement() {
+    if (quantity < 10) {
+      setQuantity((state) => state + 1)
+    }
+  }
+
+  function handleDecrement() {
+    if (quantity > 1) {
+      setQuantity((state) => state - 1)
+    }
   }
 
   return (
@@ -66,9 +73,13 @@ export function CoffeeCard({ coffee }: coffeeProps) {
           <ProductPrice>{formattedPrice}</ProductPrice>
         </WrapperProductPrice>
 
-        <QuantityInput onQuantityChange={handleQuantityChange} />
+        <QuantityInput
+          onIncrease={handleIncrement}
+          onDecrease={handleDecrement}
+          quantity={quantity}
+        />
 
-        <WrapperCartButton onClick={handleAddProductInCart}>
+        <WrapperCartButton onClick={handleAddToCart}>
           <ShoppingCartSimple size={22} weight="fill" />
         </WrapperCartButton>
       </ProductFooter>

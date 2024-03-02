@@ -10,7 +10,7 @@ export const ProductContainer = styled.div`
   flex-direction: column;
   gap: 1rem;
 
-  width: 13.5rem;
+  width: 15rem;
 `
 
 export const ProductHeader = styled.div`
@@ -35,7 +35,7 @@ export const ProductHeader = styled.div`
     align-items: center;
     justify-content: space-between;
     gap: 0.5rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 
     > span {
       background: ${({ theme }) => theme.yellow_light};
