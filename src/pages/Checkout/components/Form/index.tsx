@@ -25,7 +25,7 @@ interface addressDataProps {
 }
 
 interface FormProps {
-  onChange: () => void
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   addressData?: addressDataProps | null
   isPostalCodeValid?: boolean
 }

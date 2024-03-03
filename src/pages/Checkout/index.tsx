@@ -19,11 +19,13 @@ export function Checkout() {
   const [addressData, setAddressData] = useState<AddressData | null>(null)
   const [isPostalCodeValid, setIsPostalCodeValid] = useState(false)
 
-  function handleSubmit() {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
   }
 
-  async function handleSearchPostalCode() {
+  async function handleSearchPostalCode(
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) {
     const cepValidation = /^[0-9]{8}$/
     const postalCode = event.target.value
 
