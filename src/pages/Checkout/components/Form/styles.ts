@@ -4,6 +4,10 @@ interface InputStyledProps {
   error?: boolean
 }
 
+interface PaymentContainerProps {
+  error?: boolean
+}
+
 export const InputStyled = styled.input<InputStyledProps>`
   border-radius: 4px;
   border: 1px solid ${({ theme }) => theme.base_button};
@@ -75,7 +79,13 @@ export const HeaderAddress = styled(SharedHeader)`
     fill: ${({ theme }) => theme.yellow_dark};
   }
 `
-export const PaymentContainer = styled(SharedContainer)``
+export const PaymentContainer = styled(SharedContainer)<PaymentContainerProps>`
+  ${({ error }) =>
+    error &&
+    css`
+      border: 1px solid red;
+    `}
+`
 
 export const HeaderPayment = styled(SharedHeader)`
   margin-bottom: 2rem;
@@ -90,7 +100,7 @@ export const PaymentMethods = styled.div`
   justify-content: space-between;
   gap: 0.75rem;
 `
-export const ErrorPostalCode = styled.div`
+export const MessageErrorContainer = styled.div`
   font-size: 0.875rem;
   color: red;
   height: 1rem;

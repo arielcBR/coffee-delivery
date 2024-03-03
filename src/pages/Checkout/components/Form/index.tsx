@@ -14,7 +14,7 @@ import {
   PaymentContainer,
   HeaderPayment,
   PaymentMethods,
-  ErrorPostalCode,
+  MessageErrorContainer,
 } from './styles'
 import { PaymentMethod } from '../PaymentMethod'
 
@@ -67,9 +67,9 @@ export function Form({
             <p>Informe o endereço onde deseja receber seu pedido</p>
           </div>
         </HeaderAddress>
-        <ErrorPostalCode>
+        <MessageErrorContainer>
           {!isPostalCodeValid ? <p>O CEP informado é inválido!</p> : <p></p>}
-        </ErrorPostalCode>
+        </MessageErrorContainer>
 
         <InputStyled
           name="cep"
@@ -87,13 +87,13 @@ export function Form({
           value={addressData ? addressData.street : ''}
           readOnly
         />
-        <ErrorPostalCode>
+        <MessageErrorContainer>
           {isPostalCodeValid && !isNumberStreetAddressFiled ? (
             <p>Preencher número!</p>
           ) : (
             <p></p>
           )}
-        </ErrorPostalCode>
+        </MessageErrorContainer>
         <InputWrapper>
           <InputStyled
             name="number"
@@ -138,7 +138,13 @@ export function Form({
         </InputWrapper>
       </AddressContainer>
 
-      <PaymentContainer>
+      <PaymentContainer
+        error={
+          activePaymentMethod === '' &&
+          isPostalCodeValid &&
+          isNumberStreetAddressFiled
+        }
+      >
         <HeaderPayment>
           <CurrencyDollar size={22} />
           <div>
