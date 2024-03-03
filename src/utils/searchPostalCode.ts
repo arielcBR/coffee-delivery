@@ -13,10 +13,10 @@ export async function searchPostalCode(cep: string) {
       }
     }
     return {
-      street: data.logradouro,
-      neighborhood: data.bairro,
-      city: data.localidade,
-      state: data.uf,
+      street: '',
+      neighborhood: '',
+      city: '',
+      state: '',
       error: true,
     }
   } catch (error) {

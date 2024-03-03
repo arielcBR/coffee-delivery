@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   Bank,
   CreditCard,
@@ -26,11 +27,27 @@ interface addressDataProps {
 
 interface FormProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  addressData?: addressDataProps | null
+  addressData: addressDataProps
   isPostalCodeValid?: boolean
+  isNumberAddressValid: (state: boolean) => void
+  isPaymentMethodSelected: (state: boolean) => void
 }
 
-export function Form({ onChange, addressData, isPostalCodeValid }: FormProps) {
+export function Form({ onChange, addressData, isPostalCodeValid, isPaymentMethodSelected, isNumberAddressValid }: FormProps) {
+  const [activePaymentMethod, setActivePaymentMethod] = useState('');
+  const [isNumberStreetAddressFiled, setIsNumberStreetAddressFiled] = useState(false)
+   
+  const handlePaymentMethodClick = (method: string) => {
+    setActivePaymentMethod(method);
+  }
+
+  function handleNumberInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const inputValue = event.target.value;
+    setIsNumberStreetAddressFiled(!!inputValue)
+  }
+
+  isPaymentMethodSelected(activePaymentMethod == '' ? false : true)
+  isNumberAddressValid(isNumberStreetAddressFiled)
 
   return (
     <div>
@@ -68,11 +85,13 @@ export function Form({ onChange, addressData, isPostalCodeValid }: FormProps) {
         />
         <InputWrapper>
           <InputStyled
+            name="number"
             className="half-width"
             type="text"
             placeholder="Número"
             defaultValue=""
             required
+            onChange={handleNumberInputChange}
           />
           <InputStyled
             className="full-width"
@@ -117,9 +136,23 @@ export function Form({ onChange, addressData, isPostalCodeValid }: FormProps) {
           </div>
         </HeaderPayment>
         <PaymentMethods>
-          <PaymentMethod icon={<CreditCard size={22} />} method="crédito" />
-          <PaymentMethod icon={<Bank size={22} />} method="débito" />
-          <PaymentMethod icon={<Money size={22} />} method="dinheiro" />
+          <PaymentMethod 
+            icon={<CreditCard size={22} />} 
+            method="crédito" 
+            active={activePaymentMethod === 'crédito'}
+            onClick={() => handlePaymentMethodClick('crédito')}
+          />
+          <PaymentMethod 
+            icon={<Bank size={22} />} 
+            method="débito" 
+            active={activePaymentMethod === 'débito'}
+            onClick={() => handlePaymentMethodClick('débito')}/>
+          <PaymentMethod 
+            icon={<Money size={22} />} 
+            method="dinheiro"
+            active={activePaymentMethod === 'dinheiro'}
+            onClick={() => handlePaymentMethodClick('dinheiro')}
+          />
         </PaymentMethods>
       </PaymentContainer>
       <div></div>

@@ -12,12 +12,29 @@ interface AddressData {
   neighborhood: string
   city: string
   state: string
+  error?: boolean
 }
 
 export function Checkout() {
   const { cartItems, cartQuantity } = useCart()
-  const [addressData, setAddressData] = useState<AddressData | null>(null)
+  const [addressData, setAddressData] = useState<AddressData>({
+    street: '',
+    neighborhood: '',
+    city: '',
+    state: '',
+    error: true,
+  })
   const [isPostalCodeValid, setIsPostalCodeValid] = useState(false)
+  const [isNumberStreetAddressFilled, setIsNumberStreetAddressFilled] =
+    useState(false)
+  const [isPaymentMethodSelected, setIsPaymentMethodSelected] = useState(false)
+
+  const disableButtonSubmit = !(
+    isPostalCodeValid &&
+    isNumberStreetAddressFilled &&
+    isPaymentMethodSelected &&
+    cartQuantity > 0
+  )
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -52,6 +69,14 @@ export function Checkout() {
     }
   }
 
+  function handlePaymentMethodSelected(state: boolean) {
+    setIsPaymentMethodSelected(state)
+  }
+
+  function handleNumberStreetAddressfilled(state: boolean) {
+    setIsNumberStreetAddressFilled(state)
+  }
+
   return (
     <CheckoutContainer>
       <FormContainer onSubmit={handleSubmit}>
@@ -59,18 +84,15 @@ export function Checkout() {
           onChange={handleSearchPostalCode}
           addressData={addressData}
           isPostalCodeValid={isPostalCodeValid}
+          isNumberAddressValid={handleNumberStreetAddressfilled}
+          isPaymentMethodSelected={handlePaymentMethodSelected}
         />
         <div>
           <label htmlFor="">Cafés selecionados</label>
           <CartContainer>
             {cartItems.length > 0 ? <SelectedCoffees /> : <EmptyCart />}
-
             <OrderDetail />
-
-            <button
-              disabled={cartQuantity <= 0 || !isPostalCodeValid}
-              type="submit"
-            >
+            <button disabled={disableButtonSubmit} type="submit">
               Confirmar pedido
             </button>
           </CartContainer>
