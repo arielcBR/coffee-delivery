@@ -4,16 +4,13 @@ interface InputStyledProps {
   error?: boolean
 }
 
-interface ErrorPostalCodeProps {
-  error?: boolean
-}
-
 export const InputStyled = styled.input<InputStyledProps>`
   border-radius: 4px;
   border: 1px solid ${({ theme }) => theme.base_button};
   background: ${({ theme }) => theme.base_input};
   margin-bottom: 1rem;
   padding: 0.75rem;
+  height: 2.5625rem;
 
   &.half-width {
     width: 12.5rem;
@@ -93,10 +90,9 @@ export const PaymentMethods = styled.div`
   justify-content: space-between;
   gap: 0.75rem;
 `
-export const ErrorPostalCode = styled.div<ErrorPostalCodeProps>`
+export const ErrorPostalCode = styled.div`
   font-size: 0.875rem;
   color: red;
-  margin-bottom: 0.5rem;
   height: 1rem;
   width: 100%;
 `

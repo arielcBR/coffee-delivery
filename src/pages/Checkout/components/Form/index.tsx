@@ -33,20 +33,27 @@ interface FormProps {
   isPaymentMethodSelected: (state: boolean) => void
 }
 
-export function Form({ onChange, addressData, isPostalCodeValid, isPaymentMethodSelected, isNumberAddressValid }: FormProps) {
-  const [activePaymentMethod, setActivePaymentMethod] = useState('');
-  const [isNumberStreetAddressFiled, setIsNumberStreetAddressFiled] = useState(false)
-   
+export function Form({
+  onChange,
+  addressData,
+  isPostalCodeValid,
+  isPaymentMethodSelected,
+  isNumberAddressValid,
+}: FormProps) {
+  const [activePaymentMethod, setActivePaymentMethod] = useState('')
+  const [isNumberStreetAddressFiled, setIsNumberStreetAddressFiled] =
+    useState(false)
+
   const handlePaymentMethodClick = (method: string) => {
-    setActivePaymentMethod(method);
+    setActivePaymentMethod(method)
   }
 
   function handleNumberInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const inputValue = event.target.value;
+    const inputValue = event.target.value
     setIsNumberStreetAddressFiled(!!inputValue)
   }
 
-  isPaymentMethodSelected(activePaymentMethod == '' ? false : true)
+  isPaymentMethodSelected(activePaymentMethod !== '')
   isNumberAddressValid(isNumberStreetAddressFiled)
 
   return (
@@ -60,20 +67,17 @@ export function Form({ onChange, addressData, isPostalCodeValid, isPaymentMethod
             <p>Informe o endereço onde deseja receber seu pedido</p>
           </div>
         </HeaderAddress>
-          <ErrorPostalCode >
-            {!isPostalCodeValid 
-            ? <p>O CEP informado é inválido!</p>
-            : <p></p>}
-          
+        <ErrorPostalCode>
+          {!isPostalCodeValid ? <p>O CEP informado é inválido!</p> : <p></p>}
         </ErrorPostalCode>
-        
+
         <InputStyled
           name="cep"
           placeholder="CEP"
           defaultValue=""
           onChange={onChange}
           maxLength={8}
-          error={!isPostalCodeValid} 
+          error={!isPostalCodeValid}
           required
         />
         <InputStyled
@@ -83,6 +87,13 @@ export function Form({ onChange, addressData, isPostalCodeValid, isPaymentMethod
           value={addressData ? addressData.street : ''}
           readOnly
         />
+        <ErrorPostalCode>
+          {isPostalCodeValid && !isNumberStreetAddressFiled ? (
+            <p>Preencher número!</p>
+          ) : (
+            <p></p>
+          )}
+        </ErrorPostalCode>
         <InputWrapper>
           <InputStyled
             name="number"
@@ -91,8 +102,10 @@ export function Form({ onChange, addressData, isPostalCodeValid, isPaymentMethod
             placeholder="Número"
             defaultValue=""
             required
+            error={isPostalCodeValid && !isNumberStreetAddressFiled}
             onChange={handleNumberInputChange}
           />
+
           <InputStyled
             className="full-width"
             type="text"
@@ -136,19 +149,20 @@ export function Form({ onChange, addressData, isPostalCodeValid, isPaymentMethod
           </div>
         </HeaderPayment>
         <PaymentMethods>
-          <PaymentMethod 
-            icon={<CreditCard size={22} />} 
-            method="crédito" 
+          <PaymentMethod
+            icon={<CreditCard size={22} />}
+            method="crédito"
             active={activePaymentMethod === 'crédito'}
             onClick={() => handlePaymentMethodClick('crédito')}
           />
-          <PaymentMethod 
-            icon={<Bank size={22} />} 
-            method="débito" 
+          <PaymentMethod
+            icon={<Bank size={22} />}
+            method="débito"
             active={activePaymentMethod === 'débito'}
-            onClick={() => handlePaymentMethodClick('débito')}/>
-          <PaymentMethod 
-            icon={<Money size={22} />} 
+            onClick={() => handlePaymentMethodClick('débito')}
+          />
+          <PaymentMethod
+            icon={<Money size={22} />}
             method="dinheiro"
             active={activePaymentMethod === 'dinheiro'}
             onClick={() => handlePaymentMethodClick('dinheiro')}
